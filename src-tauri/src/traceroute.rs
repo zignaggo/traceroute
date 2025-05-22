@@ -6,6 +6,7 @@ pub mod traceroute {
         net::IpAddr,
         time::{Duration, Instant},
     };
+    use tauri::Emitter;
     #[derive(Debug)]
     struct Cfg {
         ipv4_adr: IpAddr,
@@ -13,7 +14,8 @@ pub mod traceroute {
     const MAX_HOPS: u32 = 15;
     const TIMEOUT: Duration = Duration::from_secs(3);
 
-    pub fn trace(value: String) {
+    pub fn trace(webview_window: tauri::WebviewWindow, value: String) {
+        let hostname = value.clone();
         let ip_addr: IpAddr = match parse_cfg(value) {
             Err(e) => {
                 println!("{}", e);
@@ -25,11 +27,17 @@ pub mod traceroute {
         let mut socket: icmp::IcmpSocket = match icmp::IcmpSocket::connect(ip_addr) {
             Ok(s) => {
                 println!("ICMP Socket created!");
+                webview_window
+                    .emit("traceroute:socket:created", "ICMP Socket created!")
+                    .unwrap();
                 s
             }
             Err(e) => {
                 println!("Error creating ICMP socket: {}", e);
                 println!("Note: You might need to run this program with sudo privileges.");
+                webview_window
+                    .emit("traceroute:socket:error", "Error creating ICMP socket!")
+                    .unwrap();
                 return;
             }
         };
@@ -43,6 +51,9 @@ pub mod traceroute {
         });
 
         println!("Starting traceroute to {} ({})", hostname, ip_addr);
+        webview_window
+            .emit("traceroute:socket:started", "Traceroute started!")
+            .unwrap();
         println!(
             "Using max {} hops and {} timeout",
             MAX_HOPS,
@@ -88,15 +99,34 @@ pub mod traceroute {
             match socket.recv_from(&mut reply_buf) {
                 Ok((n, source_addr)) => {
                     let duration: Duration = start.elapsed();
-
                     if n >= 20 {
                         let source_ip = source_addr.to_string();
                         let icmp_type = reply_buf[20];
                         match icmp_type {
                             11 => {
+                                webview_window
+                                    .emit(
+                                        "traceroute:packet:received",
+                                        serde_json::json!({
+                                            "ttl": ttl,
+                                            "source_ip": source_ip,
+                                            "duration": duration.as_nanos()
+                                        }),
+                                    )
+                                    .unwrap();
                                 println!("{:2}  {:15}  {:?}", ttl, source_ip, duration);
                             }
                             0 => {
+                                webview_window
+                                    .emit(
+                                        "traceroute:host:reached",
+                                        serde_json::json!({
+                                            "ttl": ttl,
+                                            "source_ip": source_ip,
+                                            "duration": duration.as_nanos()
+                                        }),
+                                    )
+                                    .unwrap();
                                 println!(
                                     "{:2}  {:15}  {:?} (Destination reached)",
                                     ttl, source_ip, duration
@@ -119,6 +149,9 @@ pub mod traceroute {
                 }
                 Err(e) => match e.kind() {
                     io::ErrorKind::WouldBlock | io::ErrorKind::TimedOut => {
+                        webview_window
+                            .emit("traceroute:packet:timeout", ttl)
+                            .unwrap();
                         println!("{:2}  *  *  * ", ttl);
                     }
                     _ => {
