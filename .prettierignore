@@ -1,0 +1,15 @@
+.husky
+.next
+
+docker
+k8s
+node_modules
+scripts
+
+expo-env.d.ts
+nativewind-env.d.ts
+next-env.d.ts
+
+package-lock.json
+yarn.lock
+bun.lock
