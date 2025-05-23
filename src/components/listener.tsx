@@ -24,7 +24,10 @@ export function Listener() {
       listen<PayloadType>(event, (event) => {
         addToList({
           type: event.event as EventType,
-          payload: event.payload,
+          payload: {
+            ...event.payload,
+            type: event.event,
+          } as PayloadType,
         });
       });
     });

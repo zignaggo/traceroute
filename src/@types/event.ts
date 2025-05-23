@@ -15,14 +15,30 @@ export type EventType =
   | "traceroute:packet:received"
   | "traceroute:host:reached";
 
-export type PayloadType = {
-  ttl: number;
-  source_ip: string;
-  duration: number;
+type BasePayload = {
   id: number;
 };
 
+type SocketPayload = BasePayload & {
+  type: "traceroute:socket:error" | "traceroute:socket:created" | "traceroute:socket:started";
+  message: string;
+};
+
+type TimeoutPayload = BasePayload & {
+  type: "traceroute:packet:timeout";
+  ttl: number;
+};
+
+type PacketPayload = BasePayload & {
+  type: "traceroute:packet:received" | "traceroute:host:reached";
+  ttl: number;
+  source_ip: string;
+  duration: number;
+};
+
+export type PayloadType = SocketPayload | TimeoutPayload | PacketPayload;
+
 export type TracerouteEvent = {
   type: EventType;
-  payload: PayloadType | { id: number; message: string };
+  payload: PayloadType;
 };

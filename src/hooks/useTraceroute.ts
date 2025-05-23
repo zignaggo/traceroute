@@ -1,7 +1,6 @@
 import { EventType, TracerouteEvent } from "@/@types/event";
 import { events, isGettingEvents, time } from "@/store";
 import { invoke } from "@tauri-apps/api/core";
-// import { useEffect } from "react";
 
 type UseTracerouteProps = {
   callbacks?: Record<EventType | "start:traceroute", (event?: TracerouteEvent) => void>;
