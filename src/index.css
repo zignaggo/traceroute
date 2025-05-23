@@ -1,4 +1,5 @@
-@import "tailwindcss";@import "tw-animate-css";
+@import "tailwindcss";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -117,4 +118,11 @@
     @apply bg-background text-foreground;
   }
 }
+#terminalEditor {
+  @apply !rounded-none;
+}
 
+* {
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
+}

@@ -1,16 +1,12 @@
 import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 import * as React from "react";
-import { Iconify } from "../iconify";
-import { Button } from "./button";
 
 type InputProps = Omit<React.ComponentProps<"input">, "size"> & {
   disabled?: boolean;
   showCurrency?: boolean;
-  prependAction?: () => void;
-  appendAction?: () => void;
-  prependIcon?: string;
-  appendIcon?: string;
+  prependIcon?: React.ReactNode;
+  appendIcon?: React.ReactNode;
   size?: "large" | "medium" | "small";
   variant?: "rounded" | "default";
 };
@@ -57,19 +53,7 @@ const inputVariants = cva(
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
-    {
-      className,
-      type,
-      size,
-      disabled,
-      prependIcon,
-      showCurrency,
-      appendIcon,
-      prependAction,
-      appendAction,
-      variant,
-      ...props
-    },
+    { className, type, size, disabled, prependIcon, appendIcon, showCurrency, variant, ...props },
     ref
   ) => {
     const inputRef = React.useRef<HTMLInputElement>(null);
@@ -88,16 +72,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         style={props.style}
         onTouchStart={handleViewPress}
       >
-        {prependIcon &&
-          (prependAction ? (
-            <Button onClick={prependAction} className="h-full items-center justify-center px-3">
-              <Iconify name={prependIcon} className="h-4 w-4" />
-            </Button>
-          ) : (
-            <div className="flex h-full items-center justify-center px-3">
-              <Iconify name={prependIcon} className="h-4 w-4" />
-            </div>
-          ))}
+        {<div className="flex items-center justify-center px-3">{prependIcon}</div>}
         {showCurrency && <p className="text-center pl-3 pr-1 text-foreground ">R$</p>}
         <input
           {...props}
@@ -112,20 +87,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             appendIcon && "m-0 pr-0"
           )}
         />
-        {appendIcon &&
-          (appendAction ? (
-            <Button
-              onClick={appendAction}
-              variant="ghost"
-              className="items-center justify-center px-3 bg-transparent"
-            >
-              <Iconify name={appendIcon} className="h-4 w-4" />
-            </Button>
-          ) : (
-            <div className="flex items-center justify-center px-3">
-              <Iconify name={appendIcon} className="h-4 w-4" />
-            </div>
-          ))}
+        {<div className="flex items-center justify-center px-3">{appendIcon}</div>}
       </div>
     );
   }

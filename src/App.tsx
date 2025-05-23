@@ -1,23 +1,24 @@
-import { Graph } from "@/components/graph";
+import { Flow } from "@/components/flow";
 import { Header } from "@/components/header";
-import { Terminal } from "@/components/terminal";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-import { useSignals } from "@preact/signals-react/runtime";
+import { Events } from "./components/events";
 import { Listener } from "./components/listener";
+import { Terminal } from "./components/terminal";
 import "./index.css";
-
 function App() {
-  useSignals();
   return (
     <main className="h-screen bg-secondary flex flex-col">
       <Listener />
-      <Tabs defaultValue="graph" className="flex w-full">
+      <Tabs defaultValue="flow" className="flex w-full flex-1 gap-0 overflow-auto">
         <Header />
-        <TabsContent value="graph">
-          <Graph />
+        <TabsContent value="flow" className="flex-1 overflow-auto">
+          <Flow />
         </TabsContent>
-        <TabsContent value="terminal">
+        <TabsContent value="terminal" className="flex-1 overflow-auto">
           <Terminal />
+        </TabsContent>
+        <TabsContent value="events" className="flex-1 overflow-auto">
+          <Events />
         </TabsContent>
       </Tabs>
     </main>

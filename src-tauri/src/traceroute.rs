@@ -1,5 +1,6 @@
 pub mod traceroute {
     use icmp;
+    use rand::random;
     use std::net::ToSocketAddrs;
     use std::{
         io,
@@ -27,8 +28,15 @@ pub mod traceroute {
         let mut socket: icmp::IcmpSocket = match icmp::IcmpSocket::connect(ip_addr) {
             Ok(s) => {
                 println!("ICMP Socket created!");
+
                 webview_window
-                    .emit("traceroute:socket:created", "ICMP Socket created!")
+                    .emit(
+                        "traceroute:socket:created",
+                        serde_json::json!({
+                            "message": "ICMP Socket created!",
+                            "id": random::<u8>()
+                        }),
+                    )
                     .unwrap();
                 s
             }
@@ -36,7 +44,13 @@ pub mod traceroute {
                 println!("Error creating ICMP socket: {}", e);
                 println!("Note: You might need to run this program with sudo privileges.");
                 webview_window
-                    .emit("traceroute:socket:error", "Error creating ICMP socket!")
+                    .emit(
+                        "traceroute:socket:error",
+                        serde_json::json!({
+                            "message": "Error creating ICMP socket!",
+                            "id": random::<u8>()
+                        }),
+                    )
                     .unwrap();
                 return;
             }
@@ -52,7 +66,13 @@ pub mod traceroute {
 
         println!("Starting traceroute to {} ({})", hostname, ip_addr);
         webview_window
-            .emit("traceroute:socket:started", "Traceroute started!")
+            .emit(
+                "traceroute:socket:started",
+                serde_json::json!({
+                    "message": "Traceroute started!",
+                    "id": random::<u8>()
+                }),
+            )
             .unwrap();
         println!(
             "Using max {} hops and {} timeout",
@@ -110,7 +130,8 @@ pub mod traceroute {
                                         serde_json::json!({
                                             "ttl": ttl,
                                             "source_ip": source_ip,
-                                            "duration": duration.as_nanos()
+                                            "duration": duration.as_nanos(),
+                                            "id": random::<u8>()
                                         }),
                                     )
                                     .unwrap();
@@ -123,7 +144,8 @@ pub mod traceroute {
                                         serde_json::json!({
                                             "ttl": ttl,
                                             "source_ip": source_ip,
-                                            "duration": duration.as_nanos()
+                                            "duration": duration.as_nanos(),
+                                            "id": random::<u8>()
                                         }),
                                     )
                                     .unwrap();
@@ -150,7 +172,13 @@ pub mod traceroute {
                 Err(e) => match e.kind() {
                     io::ErrorKind::WouldBlock | io::ErrorKind::TimedOut => {
                         webview_window
-                            .emit("traceroute:packet:timeout", ttl)
+                            .emit(
+                                "traceroute:packet:timeout",
+                                serde_json::json!({
+                                    "ttl": ttl,
+                                    "id": random::<u8>()
+                                }),
+                            )
                             .unwrap();
                         println!("{:2}  *  *  * ", ttl);
                     }
