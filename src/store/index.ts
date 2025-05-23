@@ -3,12 +3,12 @@ import { computed, signal } from "@preact/signals-react";
 import { Edge, Node } from "@xyflow/react";
 
 export const host = signal<string>("");
-export const tab = signal<string>("graph");
+// export const tab = signal<string>("graph");
 export const isGettingEvents = signal<boolean>(false);
 export const events = signal<TracerouteEvent[]>([]);
 export const time = signal<number>(0);
 
-export const nodes = computed(() => {
+export const nodeEvents = computed(() => {
   const nodeTypes: EventType[] = [
     "traceroute:packet:timeout",
     "traceroute:host:reached",
@@ -18,7 +18,7 @@ export const nodes = computed(() => {
 });
 
 export const nodeList = computed<Node[]>(() => {
-  return nodes.value.flatMap((event, index) => {
+  return nodeEvents.value.flatMap((event, index) => {
     const position = { x: index * 320, y: index * 80 };
     if (event.payload.type === "traceroute:packet:timeout") {
       return {
