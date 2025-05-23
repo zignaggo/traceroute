@@ -46,7 +46,7 @@ export const nodeList = computed<Node[]>(() => {
         data: {
           title: event.payload.source_ip,
           subtitle: `${(event.payload.duration / 1000 / 1000).toFixed(2)}ms`,
-          type: "host",
+          type: index === 0 ? "initial-host" : "host",
         },
         position,
         type: "pcNode",
@@ -67,6 +67,7 @@ export const edges = computed<Edge[]>(() => {
       source: node.id,
       target: nextNode.id,
       animated: true,
+      type: "packet",
     });
   }
   return list;
