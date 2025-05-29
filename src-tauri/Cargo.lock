@@ -1544,15 +1544,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "icmp"
-version = "0.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ac73e9bd805ebd8bfd8bb46886a3126ebdb1f46b5e8f5c73170c968912bb2e16"
-dependencies = [
- "libc",
-]
-
-[[package]]
 name = "ico"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4013,7 +4004,6 @@ checksum = "8df9b6e13f2d32c91b9bd719c00d1958837bc7dec474d94952798cc8e69eeec3"
 name = "traceroute"
 version = "0.1.0"
 dependencies = [
- "icmp",
  "rand 0.9.1",
  "serde",
  "serde_json",
