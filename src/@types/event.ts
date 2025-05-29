@@ -8,35 +8,33 @@
  * - traceroute:host:reached - When destination is reached (includes ttl, source_ip, duration)
  */
 export type EventType =
-  | "traceroute:socket:created"
-  | "traceroute:socket:error"
-  | "traceroute:socket:started"
-  | "traceroute:packet:timeout"
-  | "traceroute:packet:received"
-  | "traceroute:host:reached";
+  | "traceroute-hop"
+  | "traceroute-destination-reached"
+  | "traceroute-error"
+  | "traceroute-timeout";
 
 type BasePayload = {
   id: number;
 };
 
-type SocketPayload = BasePayload & {
-  type: "traceroute:socket:error" | "traceroute:socket:created" | "traceroute:socket:started";
-  message: string;
-};
-
-type TimeoutPayload = BasePayload & {
-  type: "traceroute:packet:timeout";
-  ttl: number;
+type ErrorPayload = BasePayload & {
+  type: "traceroute-error";
+  error: string;
 };
 
 type PacketPayload = BasePayload & {
-  type: "traceroute:packet:received" | "traceroute:host:reached";
-  ttl: number;
-  source_ip: string;
+  type: "traceroute-hop" | "traceroute-destination-reached";
+  hop: number;
+  ip: string;
   duration: number;
 };
 
-export type PayloadType = SocketPayload | TimeoutPayload | PacketPayload;
+type TimeoutPayload = BasePayload & {
+  type: "traceroute-timeout";
+  hop: number;
+};
+
+export type PayloadType = ErrorPayload | TimeoutPayload | PacketPayload;
 
 export type TracerouteEvent = {
   type: EventType;
