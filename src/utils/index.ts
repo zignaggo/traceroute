@@ -23,14 +23,19 @@ export function getThemeColors() {
 }
 
 export const formatEventLine = (payload: TracerouteEvent["payload"]): string => {
-  if ("message" in payload) {
-    return payload.message;
+  if (payload.type === "traceroute-timeout") {
+    return `${payload.hop}   * * *  * * *`;
   }
 
-  if (!payload.source_ip) {
-    return `${payload.ttl}   * * *  * * *`;
+  if (payload.type === "traceroute-hop") {
+    const durationMs = payload.duration / 1000 / 1000;
+    return `${payload.hop}   ${payload.ip}  ${durationMs}ms`;
   }
 
-  const durationMs = payload.duration / 1000 / 1000;
-  return `${payload.ttl}   ${payload.source_ip}  ${durationMs}ms`;
+  if (payload.type === "traceroute-destination-reached") {
+    const durationMs = payload.duration / 1000 / 1000;
+    return `${payload.hop}   ${payload.ip}  ${durationMs}ms`;
+  }
+
+  return "";
 };

@@ -10,9 +10,9 @@ export const time = signal<number>(0);
 
 export const nodeEvents = computed(() => {
   const nodeTypes: EventType[] = [
-    "traceroute:packet:timeout",
-    "traceroute:host:reached",
-    "traceroute:packet:received",
+    "traceroute-timeout",
+    "traceroute-destination-reached",
+    "traceroute-hop",
   ];
   return events.value.filter((event) => nodeTypes.includes(event.payload.type));
 });
@@ -20,19 +20,19 @@ export const nodeEvents = computed(() => {
 export const nodeList = computed<Node[]>(() => {
   return nodeEvents.value.flatMap((event, index) => {
     const position = { x: index * 320, y: index * 80 };
-    if (event.payload.type === "traceroute:packet:timeout") {
+    if (event.payload.type === "traceroute-timeout") {
       return {
-        id: event.payload.ttl.toString(),
+        id: event.payload.hop.toString(),
         data: { title: "Timeout", subtitle: "Timeout", type: "timeout" },
         position,
         type: "pcNode",
       };
     }
-    if (event.payload.type === "traceroute:host:reached") {
+    if (event.payload.type === "traceroute-destination-reached") {
       return {
-        id: event.payload.ttl.toString(),
+        id: event.payload.hop.toString(),
         data: {
-          title: event.payload.source_ip,
+          title: event.payload.ip,
           subtitle: `${(event.payload.duration / 1000 / 1000).toFixed(2)}ms`,
           type: "final-host",
         },
@@ -40,11 +40,11 @@ export const nodeList = computed<Node[]>(() => {
         type: "pcNode",
       };
     }
-    if (event.payload.type === "traceroute:packet:received") {
+    if (event.payload.type === "traceroute-hop") {
       return {
-        id: event.payload.ttl.toString(),
+        id: event.payload.hop.toString(),
         data: {
-          title: event.payload.source_ip,
+          title: event.payload.ip,
           subtitle: `${(event.payload.duration / 1000 / 1000).toFixed(2)}ms`,
           type: index === 0 ? "initial-host" : "host",
         },

@@ -69,15 +69,15 @@ impl TracerouteEmitter for JsonEmitter {
     }
 }
 
-pub fn traceroute(hostname: &str, sec_timeout: Option<u64>, max_hops: Option<u32>) {
-    traceroute_with_emitter(hostname, sec_timeout, max_hops, DefaultEmitter);
-}
-pub fn traceroute_json_emitter(hostname: &str, sec_timeout: Option<u64>, max_hops: Option<u32>) {
-    traceroute_with_emitter(hostname, sec_timeout, max_hops, JsonEmitter);
-}
-pub fn traceroute_silent_emitter(hostname: &str, sec_timeout: Option<u64>, max_hops: Option<u32>) {
-    traceroute_with_emitter(hostname, sec_timeout, max_hops, SilentEmitter);
-}
+// pub fn traceroute(hostname: &str, sec_timeout: Option<u64>, max_hops: Option<u32>) {
+//     traceroute_with_emitter(hostname, sec_timeout, max_hops, DefaultEmitter);
+// }
+// pub fn traceroute_json_emitter(hostname: &str, sec_timeout: Option<u64>, max_hops: Option<u32>) {
+//     traceroute_with_emitter(hostname, sec_timeout, max_hops, JsonEmitter);
+// }
+// pub fn traceroute_silent_emitter(hostname: &str, sec_timeout: Option<u64>, max_hops: Option<u32>) {
+//     traceroute_with_emitter(hostname, sec_timeout, max_hops, SilentEmitter);
+// }
 
 pub fn traceroute_with_emitter<E: TracerouteEmitter>(
     hostname: &str,
