@@ -1,8 +1,12 @@
 mod traceroute;
+mod webview_traceroute_emitter;
+use traceroute::traceroute_with_emitter;
+use webview_traceroute_emitter::TracerouteWebViewEmitter;
 
 #[tauri::command]
 async fn trace(webview_window: tauri::WebviewWindow, value: &str) -> Result<(), String> {
-    traceroute::traceroute::trace(webview_window, value.to_string());
+    let emitter = TracerouteWebViewEmitter::new(webview_window);
+    traceroute_with_emitter(value, None, None, emitter);
     Ok(())
 }
 

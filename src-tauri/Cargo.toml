@@ -24,3 +24,7 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 icmp = "0.3.0"
 rand = "0.9.1"
+
+[dependencies.socket2]
+version = "0.4.4"
+features= [ "all" ]
