@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 import { host, isGettingEvents } from "@/store";
 import { useSignals } from "@preact/signals-react/runtime";
 import { Iconify } from "./iconify";
-
 export function Header() {
   useSignals();
   const { startTraceroute } = useTraceroute();
@@ -19,7 +18,7 @@ export function Header() {
         prependIcon={
           <Iconify
             name={disabled ? "tabler:loader-2" : "tabler:search"}
-            className={cn("h-4 w-4", disabled && "animate-spin")}
+            className={cn("h-4 w-4 text-muted-foreground", disabled && "animate-spin ")}
           />
         }
         onKeyDown={(e) => {

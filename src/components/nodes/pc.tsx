@@ -19,14 +19,13 @@ export function PcNode({
         "bg-background rounded-md p-4 border border-border flex gap-2 items-center",
         data.type === "timeout" && "border-red-500",
         data.type === "final-host" && "border-green-500",
-        data.type === "final-host" && "bg-green-50/80",
-        data.type === "initial-host" && "bg-blue-50/80 border-blue-500"
+        data.type === "initial-host" && " border-blue-500"
       )}
     >
       <Icon
         icon={data.type === "timeout" ? "tabler:server-off" : "tabler:server"}
         className={cn(
-          "w-9 h-9",
+          "w-9 h-9 text-muted-foreground",
           data.type === "timeout" && "text-red-400",
           data.type === "final-host" && "text-green-400",
           data.type === "initial-host" && "text-blue-400"
@@ -36,10 +35,10 @@ export function PcNode({
       <div className="flex flex-col">
         <h6
           className={cn(
-            "text-md font-medium",
+            "text-md font-medium text-foreground",
             data.type === "final-host" && "text-green-500",
             data.type === "initial-host" && "text-blue-500",
-            data.type === "timeout" && "text-red-500"
+            data.type === "timeout" && "text-red-400"
           )}
         >
           {data.title}

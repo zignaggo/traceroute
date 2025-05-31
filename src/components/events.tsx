@@ -9,7 +9,7 @@ export function Events() {
         return (
           <div
             key={event.type}
-            className="p-4 bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow"
+            className="p-4 bg-background rounded-lg shadow-sm border border-border hover:shadow-md transition-shadow text-foreground"
           >
             {event.type}
           </div>

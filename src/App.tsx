@@ -5,9 +5,14 @@ import { Events } from "./components/events";
 import { Listener } from "./components/listener";
 import { Terminal } from "./components/terminal";
 import "./index.css";
+import { Titlebar } from "./components/titlebar";
+import { cn } from "./lib/utils";
+import { theme } from "./store";
+
 function App() {
   return (
-    <main className="h-screen bg-secondary flex flex-col">
+    <main className={cn("h-screen bg-secondary flex flex-col", theme.value === "dark" && "dark")}>
+      <Titlebar />
       <Listener />
       <Tabs defaultValue="flow" className="flex w-full flex-1 gap-0 overflow-auto">
         <Header />

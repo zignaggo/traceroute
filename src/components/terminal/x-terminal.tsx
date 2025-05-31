@@ -17,13 +17,13 @@ export const XTerminal = forwardRef<
 >(({ lines }, ref) => {
   const terminalRef = useRef(null);
   const [{ term, addonFit }] = useState(() => {
-    const { foreground, secondary, border } = getThemeColors();
+    const { foreground, background, border } = getThemeColors();
     const term = new Terminal({
       cursorBlink: true,
       fontFamily: '"Courier New", Courier, monospace',
       cols: 80,
       theme: {
-        background: secondary,
+        background,
         foreground,
         cursor: foreground,
         selectionBackground: border,
