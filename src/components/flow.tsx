@@ -23,9 +23,9 @@ export function Flow() {
         fitView
         proOptions={{ hideAttribution: true }}
       >
-        <MiniMap />
+        <MiniMap maskColor="var(--background)" bgColor="var(--secondary)" className="rounded-lg overflow-hidden" nodeColor={"var(--foreground)"} />
         <Background />
-        <Controls />
+        <Controls className="rounded-lg overflow-hidden [&>button]:!bg-background [&>button]:!text-foreground [&>button]:hover:!bg-background/50 [&>button]:!border-border [&>button]:!border "   />
       </ReactFlow>
     </section>
   );

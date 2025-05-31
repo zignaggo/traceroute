@@ -4,7 +4,6 @@ import { Handle, Position } from "@xyflow/react";
 
 export function PcNode({
   data,
-  isConnectable,
 }: {
   data: {
     title: string;
@@ -26,12 +25,12 @@ export function PcNode({
         icon={data.type === "timeout" ? "tabler:server-off" : "tabler:server"}
         className={cn(
           "w-9 h-9 text-muted-foreground",
-          data.type === "timeout" && "text-red-400",
-          data.type === "final-host" && "text-green-400",
-          data.type === "initial-host" && "text-blue-400"
+          data.type === "timeout" && "text-red-500",
+          data.type === "final-host" && "text-green-500",
+          data.type === "initial-host" && "text-blue-500"
         )}
       />
-      <Handle type="target" position={Position.Top} isConnectable={isConnectable} />
+      <Handle type="target" position={Position.Top} isConnectable={false} />
       <div className="flex flex-col">
         <h6
           className={cn(
@@ -45,9 +44,9 @@ export function PcNode({
         </h6>
         <p className="text-xs text-muted-foreground">{data.subtitle}</p>
       </div>
-      <Handle type="target" position={Position.Bottom} isConnectable={isConnectable} />
-      <Handle type="source" position={Position.Right} id="a" isConnectable={isConnectable} />
-      <Handle type="source" position={Position.Left} id="b" isConnectable={isConnectable} />
+      {/* <Handle type="target" position={Position.Bottom} isConnectable={false} /> */}
+      <Handle type="source" position={Position.Right} id="a" isConnectable={false} />
+      {/* <Handle type="source" position={Position.Left} id="b" isConnectable={false} /> */}
     </div>
   );
 }
