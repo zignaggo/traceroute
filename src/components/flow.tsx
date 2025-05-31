@@ -20,6 +20,8 @@ export function Flow() {
         nodeTypes={nodeTypes}
         edges={edges.value}
         edgeTypes={edgeTypes}
+        snapGrid={[20, 20]}
+        snapToGrid={true}
         fitView
         proOptions={{ hideAttribution: true }}
       >
