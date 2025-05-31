@@ -19,6 +19,9 @@ export function Titlebar() {
     window.close();
   };
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target instanceof HTMLButtonElement) {
+      return;
+    }
     if (e.buttons === 1) {
       e.detail === 2 ? window.toggleMaximize() : window.startDragging();
     }
@@ -27,11 +30,11 @@ export function Titlebar() {
   return (
     <div
       id="titlebar"
-      onMouseDown={handleMouseDown}
       className="titlebar bg-background flex items-center  gap-2 h-8"
+      onMouseDown={handleMouseDown}
     >
       <div className="flex flex-1 items-center justify-start gap-2 px-6">
-        <span className="text-lg font-medium text-foreground">Traceroute</span>
+        <span className="flex-1 text-lg font-medium text-foreground">Traceroute</span>
       </div>
       <div className="flex flex-1 items-center justify-end gap-2 h-8">
         <div className="titlebar-button" id="titlebar-minimize" onClick={handleMinimize}>

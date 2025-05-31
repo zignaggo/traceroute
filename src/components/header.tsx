@@ -31,7 +31,7 @@ export function Header() {
         value={host.value}
         onChange={(e) => (host.value = e.target.value)}
       />
-      <TabsList className="grid w-[300px] grid-cols-3">
+      <TabsList className="p-0 h-auto bg-background gap-1">
         <TabsTrigger value="flow">Flow</TabsTrigger>
         <TabsTrigger value="terminal">Terminal</TabsTrigger>
         <TabsTrigger value="events">Events</TabsTrigger>

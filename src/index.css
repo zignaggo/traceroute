@@ -108,6 +108,7 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.552 0.016 285.938);
+
 }
 
 @layer base {
@@ -126,3 +127,38 @@
   font-feature-settings: "tnum";
   font-variant-numeric: tabular-nums;
 }
+
+
+.xterm {
+  --x-term-selection: color-mix(in srgb, var(--foreground) 30%, transparent);
+  --x-term-foreground: var(--foreground);
+  --x-term-background: var(--background);
+}
+
+.xterm-viewport {
+  overflow-y: auto !important;
+}
+
+.xterm .xterm-viewport {
+  background-color: var(--x-term-background) !important;
+}
+
+.xterm-rows {
+  color: var(--x-term-foreground) !important;
+}
+
+.xterm-cursor.xterm-cursor-outline {
+  outline: 1px solid var(--x-term-foreground) !important;
+}
+
+.xterm-cursor.xterm-cursor-blink.xterm-cursor-block {
+  background-color: var(--x-term-foreground) !important;
+}
+.xterm-selection div {
+  background-color: var(--x-term-selection) !important;
+}
+
+.xterm-decoration-top {
+  background-color: var(--x-term-selection) !important;
+}
+

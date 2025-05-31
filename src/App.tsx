@@ -19,7 +19,7 @@ function App() {
         <TabsContent value="flow" className="flex-1 overflow-auto">
           <Flow />
         </TabsContent>
-        <TabsContent value="terminal" className="flex-1 overflow-auto">
+        <TabsContent value="terminal" className="flex-1 overflow-auto bg-background">
           <Terminal />
         </TabsContent>
         <TabsContent value="events" className="flex-1 overflow-auto">

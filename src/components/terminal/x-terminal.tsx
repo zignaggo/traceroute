@@ -2,7 +2,6 @@ import { FitAddon } from "@xterm/addon-fit";
 import { Terminal } from "@xterm/xterm";
 import "@xterm/xterm/css/xterm.css";
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
-import { getThemeColors } from "../../utils";
 
 export type XTerminalRef = {
   term: Terminal;
@@ -17,18 +16,10 @@ export const XTerminal = forwardRef<
 >(({ lines }, ref) => {
   const terminalRef = useRef(null);
   const [{ term, addonFit }] = useState(() => {
-    const { foreground, background, border } = getThemeColors();
     const term = new Terminal({
       cursorBlink: true,
       fontFamily: '"Courier New", Courier, monospace',
       cols: 80,
-      theme: {
-        background,
-        foreground,
-        cursor: foreground,
-        selectionBackground: border,
-        cursorAccent: foreground,
-      },
     });
     const addonFit = new FitAddon();
     term.loadAddon(addonFit);
@@ -62,5 +53,5 @@ export const XTerminal = forwardRef<
     });
   }, [lines]);
 
-  return <div ref={terminalRef} className="flex-1 p-4 h-[calc(100vh-100px)]" />;
+  return <div ref={terminalRef} className="flex-1 p-6 py-0" />;
 });

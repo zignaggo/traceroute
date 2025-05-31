@@ -12,7 +12,7 @@ type InputProps = Omit<React.ComponentProps<"input">, "size"> & {
 };
 
 const inputWrapperVariants = cva(
-  "flex border border-input bg-background container-input flex-row group items-center rounded-md focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background",
+  "flex border border-input bg-background container-input flex-row group items-center rounded-md focus-within:ring-[3px] focus-within:ring-blue-500/20 focus-within:border-blue-500",
   {
     variants: {
       size: {
