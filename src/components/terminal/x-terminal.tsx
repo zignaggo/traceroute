@@ -1,64 +1,28 @@
 import { Terminal } from "@xterm/xterm";
 import "@xterm/xterm/css/xterm.css";
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef } from "react";
-
+import { useEffect } from "react";
+import { useXTerm } from "react-xtermjs";
 export type XTerminalRef = {
   term: Terminal;
   clear: () => void;
   write: (line: string) => void;
 };
 
-export const XTerminal = forwardRef<
-  XTerminalRef,
-  {
-    lines: string[];
-  }
->(({ lines }, ref) => {
-  const terminalRef = useRef<HTMLDivElement | null>(null);
-  const isInitialized = useRef(false);
-  const term = useMemo(() => {
-    return new Terminal({
-      cursorBlink: true,
-      fontFamily: '"Courier New", Courier, monospace',
-      cols: 80,
-    });
-  }, []);
+type XTerminalProps = {
+  lines: string[];
+};
+export const XTerminal = ({ lines }: XTerminalProps) => {
+  const { instance, ref } = useXTerm();
 
-  useImperativeHandle(
-    ref,
-    () => ({
-      term,
-      clear: () => term.clear(),
-      write: (line: string) => term.writeln(line),
-    }),
-    [term]
-  );
-
-  const renderLines = useCallback(() => {
-    term.clear();
+  const renderLines = (lines: string[]) => {
+    instance?.clear();
     for (const line of lines) {
-      term.writeln(line);
+      instance?.writeln(line);
     }
-  }, [lines, term]);
-
+  };
   useEffect(() => {
-    if (!terminalRef.current) return;
-    
-    term.open(terminalRef.current);
-    isInitialized.current = true;
-    
-    renderLines();
-    
-    return () => {
-      term.dispose();
-    };
-  }, [term, renderLines]);
+    renderLines(lines);
+  }, [ref, instance, lines]);
 
-  useEffect(() => {
-    if (isInitialized.current && term && terminalRef.current) {
-      renderLines();
-    }
-  }, [renderLines]);
-
-  return <div ref={terminalRef} />;
-});
+  return <div ref={ref as any} style={{ height: "100%", width: "100%" }} />;
+};
