@@ -139,6 +139,9 @@
   overflow-y: auto !important;
 }
 
+.terminal.xterm {
+  width: 100% !important;
+}
 .xterm .xterm-viewport {
   background-color: var(--x-term-background) !important;
 }

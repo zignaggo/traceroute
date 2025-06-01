@@ -1,8 +1,9 @@
-import { Maximize, Minimize, Minus, X } from "lucide-react";
-import { getCurrentWindow } from "@tauri-apps/api/window";
-import { Button } from "./ui/button";
 import { isMaximized } from "@/store";
+import { Icon } from "@iconify/react";
 import { useSignals } from "@preact/signals-react/runtime";
+import { getCurrentWindow } from "@tauri-apps/api/window";
+import { Maximize, Minimize, Minus, X } from "lucide-react";
+import { Button } from "./ui/button";
 
 export function Titlebar() {
   useSignals();
@@ -30,13 +31,13 @@ export function Titlebar() {
   return (
     <div
       id="titlebar"
-      className="titlebar bg-background flex items-center  gap-2 h-8"
+      className="titlebar bg-background flex items-center gap-2 border-b border-border"
       onMouseDown={handleMouseDown}
     >
-      <div className="flex flex-1 items-center justify-start gap-2 px-6">
-        <span className="flex-1 text-lg font-medium text-foreground">Traceroute</span>
+      <div className="flex flex-1 items-center justify-start gap-2 px-3">
+        <Icon icon="tabler:server" className="w-6 h-6 text-muted-foreground" />
       </div>
-      <div className="flex flex-1 items-center justify-end gap-2 h-8">
+      <div className="flex h-full items-center justify-end gap-2">
         <div className="titlebar-button" id="titlebar-minimize" onClick={handleMinimize}>
           <Button variant="ghost" size="icon" className="text-muted-foreground rounded-none">
             <Minus size={20} />

@@ -1,5 +1,4 @@
 import { Input } from "@/components/ui/input";
-import { TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTraceroute } from "@/hooks/useTraceroute";
 import { cn } from "@/lib/utils";
 import { host, isGettingEvents } from "@/store";
@@ -10,7 +9,7 @@ export function Header() {
   const { startTraceroute } = useTraceroute();
   const disabled = isGettingEvents.value;
   return (
-    <header className="flex w-full bg-background p-4 gap-2 items-center justify-center">
+    <header className="flex w-full bg-background p-2 gap-2 items-center justify-center">
       <Input
         className="w-full"
         variant="rounded"
@@ -31,11 +30,6 @@ export function Header() {
         value={host.value}
         onChange={(e) => (host.value = e.target.value)}
       />
-      <TabsList className="p-0 h-auto bg-background gap-1">
-        <TabsTrigger value="flow">Flow</TabsTrigger>
-        <TabsTrigger value="terminal">Terminal</TabsTrigger>
-        <TabsTrigger value="events">Events</TabsTrigger>
-      </TabsList>
     </header>
   );
 }

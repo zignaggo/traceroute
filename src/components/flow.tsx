@@ -14,21 +14,24 @@ const edgeTypes = {
 export function Flow() {
   useSignals();
   return (
-    <section className="flex flex-1 p-4 h-full">
-      <ReactFlow
-        nodes={nodeList.value}
-        nodeTypes={nodeTypes}
-        edges={edges.value}
-        edgeTypes={edgeTypes}
-        snapGrid={[20, 20]}
-        snapToGrid={true}
-        fitView
-        proOptions={{ hideAttribution: true }}
-      >
-        <MiniMap maskColor="var(--background)" bgColor="var(--secondary)" className="rounded-lg overflow-hidden" nodeColor={"var(--foreground)"} />
-        <Background />
-        <Controls className="rounded-lg overflow-hidden [&>button]:!bg-background [&>button]:!text-foreground [&>button]:hover:!bg-background/50 [&>button]:!border-border [&>button]:!border "   />
-      </ReactFlow>
-    </section>
+    <ReactFlow
+      nodes={nodeList.value}
+      nodeTypes={nodeTypes}
+      edges={edges.value}
+      edgeTypes={edgeTypes}
+      snapGrid={[20, 20]}
+      snapToGrid={true}
+      fitView
+      proOptions={{ hideAttribution: true }}
+    >
+      <MiniMap
+        maskColor="var(--background)"
+        bgColor="var(--secondary)"
+        className="rounded-lg overflow-hidden"
+        nodeColor={"var(--foreground)"}
+      />
+      <Background />
+      <Controls className="rounded-lg overflow-hidden [&>button]:!bg-background [&>button]:!text-foreground [&>button]:hover:!bg-background/50 [&>button]:!border-border [&>button]:!border " />
+    </ReactFlow>
   );
 }

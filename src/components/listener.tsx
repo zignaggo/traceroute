@@ -20,7 +20,6 @@ export function Listener() {
     ];
     eventsList.forEach((event) => {
       listen<PayloadType>(event, (event) => {
-        console.log(event.payload);
         addToList({
           type: event.event as EventType,
           payload: {
