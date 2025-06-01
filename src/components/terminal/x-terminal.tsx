@@ -2,7 +2,6 @@ import { FitAddon } from "@xterm/addon-fit";
 import { Terminal } from "@xterm/xterm";
 import "@xterm/xterm/css/xterm.css";
 import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from "react";
-
 export type XTerminalRef = {
   term: Terminal;
   clear: () => void;
@@ -40,22 +39,18 @@ export const XTerminal = forwardRef<
     term.open(terminalRef.current);
     term.loadAddon(addonFit);
     window.addEventListener("resize", addonFit.fit);
-    console.log("mounted");
     return () => {
-      console.log("unmounting");
-      // term.dispose();
       window.removeEventListener("resize", addonFit.fit);
     };
   }, []);
 
   useEffect(() => {
     if (!terminalRef.current) return;
-    term.open(terminalRef.current);
     term.clear();
     lines.forEach((line) => {
       term.writeln(line);
     });
   }, [lines]);
 
-  return <div ref={terminalRef} className="flex flex-1" />;
+  return <div ref={terminalRef}  />;
 });

@@ -5,20 +5,21 @@ import { Titlebar } from "@/components/titlebar";
 import "@/index.css";
 import { cn } from "@/lib/utils";
 import { theme } from "@/store";
+import { useSignals } from "@preact/signals-react/runtime";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
-
 export const Route = createRootRoute({
   component: RootComponent,
 });
 
 function RootComponent() {
+  useSignals();
   return (
-    <main className={cn("h-screen bg-secondary flex flex-col", theme.value === "dark" && "dark")}>
+    <main className={cn("h-screen bg-secondary flex flex-col transition-colors duration-400", theme.value === "dark" && "dark")}>
       <Titlebar />
       <div className="flex flex-1 ">
         <Sidebar />
         <div className="flex flex-1 flex-col overflow-auto">
-            <Header />
+          <Header />
           <Outlet />
         </div>
       </div>

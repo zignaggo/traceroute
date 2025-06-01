@@ -83,3 +83,9 @@ batch(() => {
     isMaximized.value = value;
   });
 });
+
+
+export const toggleTheme = () => {
+  theme.value = theme.value === "dark" ? "light" : "dark";
+};
+

@@ -6,5 +6,7 @@ export const Route = createFileRoute('/terminal')({
 })
 
 function RouteComponent() {
-  return <Terminal />
+  return <section className="flex flex-1 flex-col gap-2 px-4 bg-background">
+    <Terminal />
+  </section>
 }
