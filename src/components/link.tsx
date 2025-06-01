@@ -11,7 +11,7 @@ const BasicLinkComponent = React.forwardRef<HTMLAnchorElement, BasicLinkProps>((
       {...props}
       className={cn(
         "flex items-center justify-center gap-2 p-2 rounded-md bg-background",
-        "hover:bg-primary/20 data-[status=active]:bg-secondary",
+        "hover:bg-primary/20 data-[status=active]:bg-primary/20 data-[status=active]:text-foreground text-muted-foreground",
         props.className,
       )}
     />

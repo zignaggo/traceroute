@@ -1,7 +1,7 @@
-import { FitAddon } from "@xterm/addon-fit";
 import { Terminal } from "@xterm/xterm";
 import "@xterm/xterm/css/xterm.css";
-import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef } from "react";
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef } from "react";
+
 export type XTerminalRef = {
   term: Terminal;
   clear: () => void;
@@ -14,7 +14,8 @@ export const XTerminal = forwardRef<
     lines: string[];
   }
 >(({ lines }, ref) => {
-  const terminalRef = useRef(null);
+  const terminalRef = useRef<HTMLDivElement | null>(null);
+  const isInitialized = useRef(false);
   const term = useMemo(() => {
     return new Terminal({
       cursorBlink: true,
@@ -22,7 +23,6 @@ export const XTerminal = forwardRef<
       cols: 80,
     });
   }, []);
-  const addonFit = useMemo(() => new FitAddon(), []);
 
   useImperativeHandle(
     ref,
@@ -34,23 +34,31 @@ export const XTerminal = forwardRef<
     [term]
   );
 
-  useEffect(() => {
-    if (!terminalRef.current) return;
-    term.open(terminalRef.current);
-    term.loadAddon(addonFit);
-    window.addEventListener("resize", addonFit.fit);
-    return () => {
-      window.removeEventListener("resize", addonFit.fit);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!terminalRef.current) return;
+  const renderLines = useCallback(() => {
     term.clear();
-    lines.forEach((line) => {
+    for (const line of lines) {
       term.writeln(line);
-    });
-  }, [lines]);
+    }
+  }, [lines, term]);
 
-  return <div ref={terminalRef}  />;
+  useEffect(() => {
+    if (!terminalRef.current) return;
+    
+    term.open(terminalRef.current);
+    isInitialized.current = true;
+    
+    renderLines();
+    
+    return () => {
+      term.dispose();
+    };
+  }, [term, renderLines]);
+
+  useEffect(() => {
+    if (isInitialized.current && term && terminalRef.current) {
+      renderLines();
+    }
+  }, [renderLines]);
+
+  return <div ref={terminalRef} />;
 });
