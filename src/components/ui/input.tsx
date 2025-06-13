@@ -71,7 +71,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         style={props.style}
         onTouchStart={handleViewPress}
       >
-        {<div className="flex items-center justify-center px-3">{prependIcon}</div>}
+        {prependIcon && <div className="flex items-center justify-center px-3">{prependIcon}</div>}
         <input
           {...props}
           ref={inputRef}
@@ -85,7 +85,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             appendIcon && "m-0 pr-0"
           )}
         />
-        {<div className="flex items-center justify-center px-3">{appendIcon}</div>}
+        {appendIcon && <div className="flex items-center justify-center px-3">{appendIcon}</div>}
       </div>
     );
   }
