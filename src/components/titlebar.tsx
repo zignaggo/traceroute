@@ -1,5 +1,4 @@
 import { isMaximized } from "@/store/settings";
-import { Icon } from "@iconify/react";
 import { useSignals } from "@preact/signals-react/runtime";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { Maximize, Minimize, Minus, X } from "lucide-react";
@@ -35,7 +34,7 @@ export function Titlebar() {
       onMouseDown={handleMouseDown}
     >
       <div className="flex flex-1 items-center justify-start gap-2 px-3">
-        <Icon icon="tabler:server" className="w-6 h-6 text-muted-foreground" />
+        <img src="/icon.svg" alt="logo" className="w-5 h-5" />
       </div>
       <div className="flex h-full items-center justify-end gap-2">
         <div className="titlebar-button" id="titlebar-minimize" onClick={handleMinimize}>
