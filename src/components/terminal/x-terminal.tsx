@@ -1,28 +1,42 @@
-import { Terminal } from "@xterm/xterm";
-import "@xterm/xterm/css/xterm.css";
-import { useEffect } from "react";
-import { useXTerm } from "react-xtermjs";
-export type XTerminalRef = {
-  term: Terminal;
-  clear: () => void;
-  write: (line: string) => void;
-};
-
+import { useEffect, useRef } from "react";
+// @ts-ignore
+import Terminal from "xterminal";
 type XTerminalProps = {
   lines: string[];
 };
 export const XTerminal = ({ lines }: XTerminalProps) => {
-  const { instance, ref } = useXTerm();
+  const ref = useRef<HTMLDivElement>(null);
+  const instance = new Terminal();
+  const promptStyle =
+    '<span class="font-bold text-blue-500 bg-blue-200 rounded-sm px-1">traceroute:</span> ';
 
   const renderLines = (lines: string[]) => {
-    instance?.clear();
+    if (!instance) return;
+    instance.clear();
     for (const line of lines) {
-      instance?.writeln(line);
+      instance.write(promptStyle);
+      instance.writeln(line);
     }
   };
   useEffect(() => {
-    renderLines(lines);
-  }, [ref, instance, lines]);
+    if (ref.current) instance.mount(ref.current);
+    instance.pause();
 
-  return <div ref={ref as any} style={{ height: "100%", width: "100%" }} />;
+    return () => {
+      instance.dispose();
+    };
+  }, [instance, ref]);
+
+  useEffect(() => {
+    renderLines(lines);
+  }, [instance, lines]);
+
+  return (
+    <div
+      id="terminal"
+      className="text-foreground"
+      ref={ref as any}
+      style={{ height: "100%", width: "100%" }}
+    />
+  );
 };
