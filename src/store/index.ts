@@ -1,11 +1,8 @@
 import { EventType, TracerouteEvent } from "@/@types/event";
-import { batch, computed, signal } from "@preact/signals-react";
-import { getCurrentWindow } from "@tauri-apps/api/window";
+import { computed, signal } from "@preact/signals-react";
 import { Edge, Node } from "@xyflow/react";
 
 export const host = signal<string>("");
-export const isMaximized = signal<boolean>(false);
-export const theme = signal<"light" | "dark">("dark");
 export const isGettingEvents = signal<boolean>(false);
 export const events = signal<TracerouteEvent[]>([]);
 export const time = signal<number>(0);
@@ -57,9 +54,8 @@ export const nodeList = computed<Node[]>(() => {
     return [];
   });
 });
-
 export const edges = computed<Edge[]>(() => {
-  const list = [];
+  const list: Edge[] = [];
   for (let i = 0; i < nodeList.value.length; i++) {
     const node = nodeList.value[i];
     const nextNode = nodeList.value[i + 1];
@@ -73,13 +69,4 @@ export const edges = computed<Edge[]>(() => {
     });
   }
   return list;
-});
-
-batch(() => {
-  getCurrentWindow().theme().then((value) => {
-    theme.value = value ?? "dark";
-  });
-  getCurrentWindow().isMaximized().then((value) => {
-    isMaximized.value = value;
-  });
 });

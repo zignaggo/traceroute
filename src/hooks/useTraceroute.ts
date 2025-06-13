@@ -7,15 +7,23 @@ type UseTracerouteProps = {
 };
 
 export function useTraceroute(_?: UseTracerouteProps) {
-  const startTraceroute = async (value: string) => {
-    const trimmedValue = value.trim();
+  const startTraceroute = async ({
+    host,
+    timeout,
+    hops,
+  }: {
+    host: string;
+    timeout: number;
+    hops: number;
+  }) => {
+    const trimmedValue = host.trim();
     if (!trimmedValue) return;
     try {
       events.value = [];
       time.value = Date.now();
       isGettingEvents.value = true;
       await new Promise((resolve) => setTimeout(resolve, 500));
-      await invoke("trace", { value: trimmedValue });
+      await invoke("trace", { value: trimmedValue, timeout, hops });
     } catch (error) {
       console.error("Failed to start traceroute:", error);
     } finally {

@@ -4,9 +4,9 @@ use traceroute::traceroute_with_emitter;
 use webview_traceroute_emitter::TracerouteWebViewEmitter;
 
 #[tauri::command]
-async fn trace(webview_window: tauri::WebviewWindow, value: &str) -> Result<(), String> {
+async fn trace(webview_window: tauri::WebviewWindow, value: &str, timeout: Option<u64>, hops: Option<u32>) -> Result<(), String> {
     let emitter = TracerouteWebViewEmitter::new(webview_window);
-    traceroute_with_emitter(value, None, None, emitter);
+    traceroute_with_emitter(value, timeout, hops, emitter);
     Ok(())
 }
 

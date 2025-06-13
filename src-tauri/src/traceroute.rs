@@ -31,54 +31,6 @@ impl TracerouteEmitter for DefaultEmitter {
     }
 }
 
-pub struct SilentEmitter;
-
-impl TracerouteEmitter for SilentEmitter {
-    fn on_hop(&self, _hop: u32, _ip: String, _duration: Duration) {}
-    fn on_destination_reached(&self, _hop: u32, _ip: String, _duration: Duration) {}
-    fn on_error(&self, _error: String) {}
-    fn on_timeout(&self, _hop: u32) {}
-}
-pub struct JsonEmitter;
-
-impl TracerouteEmitter for JsonEmitter {
-    fn on_hop(&self, hop: u32, ip: String, duration: Duration) {
-        println!(
-            r#"{{"type":"hop","hop":{},"ip":"{}","duration_ms":{}}}"#,
-            hop,
-            ip,
-            duration.as_millis()
-        );
-    }
-
-    fn on_destination_reached(&self, hop: u32, ip: String, duration: Duration) {
-        println!(
-            r#"{{"type":"destination_reached","hop":{},"ip":"{}","duration_ms":{}}}"#,
-            hop,
-            ip,
-            duration.as_millis()
-        );
-    }
-
-    fn on_error(&self, error: String) {
-        println!(r#"{{"type":"error","message":"{}"}}"#, error);
-    }
-
-    fn on_timeout(&self, _hop: u32) {
-        println!(r#"{{"type":"timeout","hop":{}}}"#, _hop);
-    }
-}
-
-// pub fn traceroute(hostname: &str, sec_timeout: Option<u64>, max_hops: Option<u32>) {
-//     traceroute_with_emitter(hostname, sec_timeout, max_hops, DefaultEmitter);
-// }
-// pub fn traceroute_json_emitter(hostname: &str, sec_timeout: Option<u64>, max_hops: Option<u32>) {
-//     traceroute_with_emitter(hostname, sec_timeout, max_hops, JsonEmitter);
-// }
-// pub fn traceroute_silent_emitter(hostname: &str, sec_timeout: Option<u64>, max_hops: Option<u32>) {
-//     traceroute_with_emitter(hostname, sec_timeout, max_hops, SilentEmitter);
-// }
-
 pub fn traceroute_with_emitter<E: TracerouteEmitter>(
     hostname: &str,
     sec_timeout: Option<u64>,
@@ -93,7 +45,7 @@ pub fn traceroute_with_emitter<E: TracerouteEmitter>(
     let ip_addr: Ipv4Addr = match resolve_host(formatted_hostname) {
         Err(e) => {
             emitter.on_error(format!("❌ Resolution failed: {}", e));
-            std::process::exit(1);
+            return;
         }
         Ok(v) => v,
     };
