@@ -22,6 +22,7 @@ export function Flow() {
       snapGrid={[20, 20]}
       snapToGrid={true}
       fitView
+      nodesDraggable={false}
       proOptions={{ hideAttribution: true }}
     >
       <MiniMap
@@ -31,7 +32,10 @@ export function Flow() {
         nodeColor={"var(--foreground)"}
       />
       <Background />
-      <Controls className="rounded-lg overflow-hidden [&>button]:!bg-background [&>button]:!text-foreground [&>button]:hover:!bg-background/50 [&>button]:!border-border [&>button]:!border " />
+      <Controls
+        className="rounded-lg overflow-hidden [&>button]:!bg-background [&>button]:!text-foreground [&>button]:hover:!bg-background/50 [&>button]:!border-border [&>button]:!border "
+        showInteractive={false}
+      />
     </ReactFlow>
   );
 }

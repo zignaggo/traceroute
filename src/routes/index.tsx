@@ -1,9 +1,13 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { Flow } from '@/components/flow'
-export const Route = createFileRoute('/')({
+import { Flow } from "@/components/flow";
+import { createFileRoute } from "@tanstack/react-router";
+export const Route = createFileRoute("/")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  return <Flow />;
+  return (
+    <section className="flex flex-1 flex-col bg-secondary relative">
+      <Flow />
+    </section>
+  );
 }

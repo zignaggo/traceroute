@@ -10,7 +10,7 @@ export function Header() {
   const { startTraceroute } = useTraceroute();
   const disabled = isGettingEvents.value;
   return (
-    <header className="flex w-full bg-background p-2 gap-2 items-center justify-center">
+    <header className="flex w-full bg-background p-2 gap-2 items-center justify-center relative">
       <Input
         className="w-full"
         variant="rounded"
@@ -35,6 +35,13 @@ export function Header() {
         value={host.value}
         onChange={(e) => (host.value = e.target.value)}
       />
+      {disabled && (
+        <div
+          className={cn(
+            "absolute right-4 top-4 w-6 h-6 border-[3px] border-secondary border-t-primary rounded-full animate-spin"
+          )}
+        />
+      )}
     </header>
   );
 }
