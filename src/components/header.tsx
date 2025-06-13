@@ -2,6 +2,7 @@ import { Input } from "@/components/ui/input";
 import { useTraceroute } from "@/hooks/useTraceroute";
 import { cn } from "@/lib/utils";
 import { host, isGettingEvents } from "@/store";
+import { hops, timeout } from "@/store/settings";
 import { useSignals } from "@preact/signals-react/runtime";
 import { Iconify } from "./iconify";
 export function Header() {
@@ -23,7 +24,11 @@ export function Header() {
         onKeyDown={(e) => {
           if (e.key === "Enter" && !disabled) {
             e.preventDefault();
-            startTraceroute(host.value);
+            startTraceroute({
+              host: host.value,
+              timeout: timeout.value,
+              hops: hops.value,
+            });
           }
         }}
         disabled={disabled}

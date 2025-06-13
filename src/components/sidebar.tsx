@@ -1,4 +1,4 @@
-import { theme, toggleTheme } from "@/store";
+import { theme, toggleTheme } from "@/store/settings";
 import { Icon } from "@iconify/react";
 import { useSignals } from "@preact/signals-react/runtime";
 import { Link } from "./link";

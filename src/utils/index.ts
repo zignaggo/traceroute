@@ -34,7 +34,7 @@ export const formatEventLine = (payload: TracerouteEvent["payload"]): string => 
 
   if (payload.type === "traceroute-destination-reached") {
     const durationMs = payload.duration / 1000 / 1000;
-    return `${payload.hop}   ${payload.ip}  ${durationMs}ms`;
+    return `${payload.hop}   ${payload.ip}  ${durationMs}ms (destination reached)`;
   }
 
   return "";

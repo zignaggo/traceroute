@@ -14,8 +14,12 @@ export const XTerminal = ({ lines }: XTerminalProps) => {
     if (!instance) return;
     instance.clear();
     for (const line of lines) {
-      instance.write(promptStyle);
-      instance.writeln(line);
+      const isDestinationReached = line.includes("reached");
+      const prompt = !isDestinationReached
+        ? promptStyle
+        : promptStyle.replace("text-blue-500 bg-blue-200", "text-green-600 bg-green-200");
+      instance.write(prompt);
+      instance.writeln(`${line} ${isDestinationReached ? "✅" : ""}`);
     }
   };
   useEffect(() => {

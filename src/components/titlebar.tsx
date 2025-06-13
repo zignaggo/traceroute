@@ -1,4 +1,4 @@
-import { isMaximized } from "@/store";
+import { isMaximized } from "@/store/settings";
 import { Icon } from "@iconify/react";
 import { useSignals } from "@preact/signals-react/runtime";
 import { getCurrentWindow } from "@tauri-apps/api/window";
