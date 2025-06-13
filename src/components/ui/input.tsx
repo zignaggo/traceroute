@@ -4,7 +4,6 @@ import * as React from "react";
 
 type InputProps = Omit<React.ComponentProps<"input">, "size"> & {
   disabled?: boolean;
-  showCurrency?: boolean;
   prependIcon?: React.ReactNode;
   appendIcon?: React.ReactNode;
   size?: "large" | "medium" | "small";
@@ -12,7 +11,7 @@ type InputProps = Omit<React.ComponentProps<"input">, "size"> & {
 };
 
 const inputWrapperVariants = cva(
-  "flex border border-input bg-background container-input flex-row group items-center rounded-md focus-within:outline-none focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:ring-offset-background",
+  "flex border border-input bg-background container-input flex-row group items-center rounded-md focus-within:ring-[3px] focus-within:ring-blue-500/20 focus-within:border-blue-500",
   {
     variants: {
       size: {
@@ -53,7 +52,7 @@ const inputVariants = cva(
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (
-    { className, type, size, disabled, prependIcon, appendIcon, showCurrency, variant, ...props },
+    { className, type, size, disabled, prependIcon, appendIcon, variant, ...props },
     ref
   ) => {
     const inputRef = React.useRef<HTMLInputElement>(null);
@@ -72,8 +71,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         style={props.style}
         onTouchStart={handleViewPress}
       >
-        {<div className="flex items-center justify-center px-3">{prependIcon}</div>}
-        {showCurrency && <p className="text-center pl-3 pr-1 text-foreground ">R$</p>}
+        {prependIcon && <div className="flex items-center justify-center px-3">{prependIcon}</div>}
         <input
           {...props}
           ref={inputRef}
@@ -83,11 +81,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             inputVariants({ size }),
             disabled && "opacity-50 web:cursor-not-allowed",
             className,
-            (prependIcon || showCurrency) && "m-0 pl-0",
+            (prependIcon) && "m-0 pl-0",
             appendIcon && "m-0 pr-0"
           )}
         />
-        {<div className="flex items-center justify-center px-3">{appendIcon}</div>}
+        {appendIcon && <div className="flex items-center justify-center px-3">{appendIcon}</div>}
       </div>
     );
   }

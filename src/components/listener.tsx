@@ -13,12 +13,10 @@ export function Listener() {
   };
   useEffect(() => {
     const eventsList: EventType[] = [
-      "traceroute:socket:created",
-      "traceroute:socket:error",
-      "traceroute:socket:started",
-      "traceroute:packet:timeout",
-      "traceroute:packet:received",
-      "traceroute:host:reached",
+      "traceroute-hop",
+      "traceroute-destination-reached",
+      "traceroute-error",
+      "traceroute-timeout",
     ];
     eventsList.forEach((event) => {
       listen<PayloadType>(event, (event) => {

@@ -1,7 +1,7 @@
 {
   "name": "traceroute",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -16,12 +16,17 @@
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-popover": "^1.1.14",
+    "@radix-ui/react-progress": "^1.1.7",
     "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tabs": "^1.1.12",
     "@tailwindcss/vite": "^4.1.7",
+    "@tanstack/react-router": "^1.120.13",
+    "@tanstack/react-router-devtools": "^1.120.13",
+    "@tanstack/router-cli": "^1.120.13",
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-opener": "^2",
+    "@xterm/addon-canvas": "^0.7.0",
     "@xterm/addon-fit": "^0.10.0",
     "@xterm/xterm": "^5.5.0",
     "@xyflow/react": "^12.6.4",
@@ -37,9 +42,11 @@
     "tailwind-merge": "^3.3.0",
     "tailwindcss": "^4.1.7",
     "vaul": "^1.1.2",
+    "xterminal": "^2.1.12",
     "zod": "^3.25.20"
   },
   "devDependencies": {
+    "@tanstack/router-plugin": "^1.120.13",
     "@tauri-apps/cli": "^2",
     "@types/node": "^22.15.21",
     "@types/react": "^18.3.1",

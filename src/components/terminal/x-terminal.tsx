@@ -1,66 +1,46 @@
-import { FitAddon } from "@xterm/addon-fit";
-import { Terminal } from "@xterm/xterm";
-import "@xterm/xterm/css/xterm.css";
-import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
-import { getThemeColors } from "../../utils";
-
-export type XTerminalRef = {
-  term: Terminal;
-  clear: () => void;
+import { useEffect, useRef } from "react";
+// @ts-ignore
+import Terminal from "xterminal";
+type XTerminalProps = {
+  lines: string[];
 };
+export const XTerminal = ({ lines }: XTerminalProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const instance = new Terminal();
+  const promptStyle =
+    '<span class="font-bold text-blue-500 bg-blue-200 rounded-sm px-1">traceroute:</span> ';
 
-export const XTerminal = forwardRef<
-  XTerminalRef,
-  {
-    lines: string[];
-  }
->(({ lines }, ref) => {
-  const terminalRef = useRef(null);
-  const [{ term, addonFit }] = useState(() => {
-    const { foreground, secondary, border } = getThemeColors();
-    const term = new Terminal({
-      cursorBlink: true,
-      fontFamily: '"Courier New", Courier, monospace',
-      cols: 80,
-      theme: {
-        background: secondary,
-        foreground,
-        cursor: foreground,
-        selectionBackground: border,
-        cursorAccent: foreground,
-      },
-    });
-    const addonFit = new FitAddon();
-    term.loadAddon(addonFit);
-    return { term, addonFit };
-  });
-
-  useImperativeHandle(
-    ref,
-    () => ({
-      term,
-      clear: () => term.clear(),
-    }),
-    [term]
-  );
-
+  const renderLines = (lines: string[]) => {
+    if (!instance) return;
+    instance.clear();
+    for (const line of lines) {
+      const isDestinationReached = line.includes("reached");
+      const prompt = !isDestinationReached
+        ? promptStyle
+        : promptStyle.replace("text-blue-500 bg-blue-200", "text-green-600 bg-green-200");
+      instance.write(prompt);
+      instance.writeln(`${line} ${isDestinationReached ? "✅" : ""}`);
+    }
+  };
   useEffect(() => {
-    if (!terminalRef.current) return;
-    term.open(terminalRef.current);
-    window.addEventListener("resize", addonFit.fit);
+    if (ref.current) instance.mount(ref.current);
+    instance.pause();
+
     return () => {
-      window.removeEventListener("resize", addonFit.fit);
+      instance.dispose();
     };
-  }, []);
+  }, [instance, ref]);
 
   useEffect(() => {
-    if (!terminalRef.current) return;
-    term.open(terminalRef.current);
-    term.clear();
-    lines.forEach((line) => {
-      term.writeln(line);
-    });
-  }, [lines]);
+    renderLines(lines);
+  }, [instance, lines]);
 
-  return <div ref={terminalRef} className="flex-1 p-4 h-[calc(100vh-100px)]" />;
-});
+  return (
+    <div
+      id="terminal"
+      className="text-foreground"
+      ref={ref as any}
+      style={{ height: "100%", width: "100%" }}
+    />
+  );
+};
