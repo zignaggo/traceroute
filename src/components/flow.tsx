@@ -23,13 +23,17 @@ export function Flow() {
       snapToGrid={true}
       fitView
       nodesDraggable={false}
+      edgesFocusable={false}
+      nodesFocusable={false}
       proOptions={{ hideAttribution: true }}
     >
       <MiniMap
         maskColor="var(--background)"
         bgColor="var(--secondary)"
         className="rounded-lg overflow-hidden"
-        nodeColor={"var(--foreground)"}
+        nodeColor="var(--foreground)"
+        nodeStrokeColor="var(--border)"
+        maskStrokeColor="var(--border)"
       />
       <Background />
       <Controls
